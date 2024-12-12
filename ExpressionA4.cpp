@@ -3,139 +3,151 @@
 #include<algorithm>
 #include<stack>
 using namespace std;
-struct node
-{
-  char data;
-  node* left;
-  node* right;
+
+
+
+struct node{
+   char data;
+   node* left;
+   node* right;
 };
-node* createNode(char input)
-{
-   node* newnode=new node();
-   newnode->data=input;
-   newnode->left=NULL;
-   newnode->right=NULL;
-   return newnode;
+
+
+node* createNode(char val){
+   node* new_node=new node();
+   new_node->data=val;
+   new_node->left=NULL;
+   new_node->right=NULL;
+   return new_node;
 }
 
-node* BuildExpressionTreeFromPostfix(string input)
-{
-    stack<node*>stack;
-    for(int i=0;i<input.length();i++)
-    {
-        if(isalpha(input[i]) || isdigit(input[i]))
-        {
-           node* new_node=createNode(input[i]);
-           stack.push(new_node);
-        }
-        else if(input[i]=='+' || input[i]=='-' || input[i]=='/' || input[i]=='*')
-        {
-             node* new_node=createNode(input[i]);
-             new_node->right=stack.top();
-             stack.pop();
-             new_node->left=stack.top();
-             stack.pop();
-             stack.push(new_node);
-        }
+
+node*PostfixTree(string s){
+   stack<node*> Stack;
+
+   for(int i=0;i<s.length();i++){
+      if(isalpha(s[i]) || isdigit(s[i]) ){
+         node* new_node=createNode(s[i]);
+         Stack.push(new_node);
+      }else if(s[i]=='+' || s[i]=='-' || s[i]=='*' || s[i]=='/'){
+
+         node* new_node=createNode(s[i]);
+         new_node->right=Stack.top();
+         Stack.pop();
+         new_node->left=Stack.top();
+         Stack.pop();
+         Stack.push(new_node);
+
+      }
+
    }
+
+   return Stack.top();
+
+}
+
+
+node* PrefixTree(string s){
+   stack<node*>stack;
+   for(int i=s.length();i>=0;i--){
+
+      if(isalpha(s[i]) || isdigit(s[i])){
+         node* new_node=createNode(s[i]);
+         stack.push(new_node);
+      }else if(s[i]=='+' || s[i]=='-' || s[i]=='*' || s[i]=='/'){
+         node* new_node=createNode(s[i]);
+         new_node->left=stack.top();
+         stack.pop();
+         new_node->right=stack.top();
+         stack.pop();
+
+         stack.push(new_node);
+      }
+
+   }
+
    return stack.top();
 }
 
-node* BuildExpressionTreeFromPrefix(string input)
-{
-    stack<node*>stack;
-   //read prefix expression from right to left
-    for(int i=input.length()-1;i>=0;i--)
-    {
-        if(isalpha(input[i])||isdigit(input[i]))
-        {
-           node* new_node=createNode(input[i]);
-           stack.push(new_node);
-        }
-        else if(input[i]=='+'||input[i]=='-' ||input[i]=='/' || input[i]=='*')
-        {
-            node* new_node=createNode(input[i]);
-            new_node->left=stack.top();
-            stack.pop();
-            new_node->right=stack.top();
-            stack.pop();
-            stack.push(new_node);
-        }
-    }
-    return stack.top();
-}
 
-void Inorder(node* root)
-{
-   if(root)
-   {
-      Inorder(root->left);
-      cout <<root->data;
-      Inorder(root->right);
+node* InOrder(node* root){
+   if(root){
+      InOrder(root->left);
+      cout<<root->data;
+      InOrder(root->right);
    }
 }
 
-void Preorder (node* root)
-{
-   if(root)
-   {
-      cout << root->data;
-      Preorder(root->left);
-      Preorder(root->right);
+node* PreOrder(node* root){
+   if(root){
+      cout<<root->data;
+      PreOrder(root->left);
+      PreOrder(root->right);
    }
 }
 
-void PostOrder(node* root)
-{
-    if(root)
-    {
-    PostOrder(root->left);
-    PostOrder (root->right);
-    cout<<root->data;
-    }
+node* PostOrder(node* root){
+   if(root){
+      PostOrder(root->left);
+      PostOrder(root->right);
+      cout<<root->data;
+   }
 }
-int main()
-{
-    int choice;
-    char continueChoice; 
-    node* tree;
-    do{
-    cout << "Enter your choice whether expression is 1.Postfix or 2. Prefix =" << endl;
-    cin >> choice;
-    string input;
-    switch(choice)
-    {
-       case 1: cout << "Enter input string =" << endl;
-               cin >> input;
-               tree=BuildExpressionTreeFromPostfix(input);
-               cout<<"Inorder =";
-               Inorder(tree);
-               cout<< endl;
-               cout<<"PostOrder =";
-               PostOrder(tree);
-               cout<<endl;
-               cout<<"Preorder =";
-               Preorder(tree);
-               cout<<endl;
-               break;
-               
-         case 2:cout << "Enter prefix string =" << endl;
-              cin>>input;
-              tree=BuildExpressionTreeFromPrefix(input);
-              cout<<"Inorder =";
-               Inorder(tree);
-               cout<< endl;
-               cout<<"PostOrder =";
-               PostOrder(tree);
-               cout<<endl;
-               cout<<"Preorder =";
-               Preorder(tree);
-               cout<<endl;
-             break;    
-    }
-    cout<<"Do you wants to continue (y|n)=";
-    cin>>continueChoice;
-   }while(continueChoice=='y');
-    
-    
+
+
+int main(){
+   bool loop=true;
+   int ch;
+   string input;
+   node* tree;
+
+   while(loop){
+
+   cout<<"\n1.Postfix";
+   cout<<"\n2.Prefix";
+   cout<<"\n3.Exit";
+   cout<<"\nChoice:";
+   cin>>ch;
+
+      switch (ch)
+      {
+      case 1:
+         
+         cout<<"Enter the postfix Expression:";
+         cin>>input;
+         tree=PostfixTree(input);
+         cout<<"\nInorder:";
+         InOrder(tree);
+         cout<<"\nPreorder:";
+         PreOrder(tree);
+         cout<<"\nPostOrder:";
+         PostOrder(tree);
+      
+         break;
+      
+      case 2:
+         cout<<"Enter the prefix Expression:";
+         cin>>input;
+         tree=PrefixTree(input);
+         cout<<"\nInorder:";
+         InOrder(tree);
+         cout<<"\nPreorder:";
+         PreOrder(tree);
+         cout<<"\nPostOrder:";
+         PostOrder(tree);
+         break;
+
+      case 3:
+         loop=false;
+         break;
+
+      default:
+         cout<<"Invalid choice";
+         break;
+      }
+
+   }
+
+
+   return 0;
 }
