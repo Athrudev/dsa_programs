@@ -1,124 +1,143 @@
-#include <iostream>
-#include <fstream>
-#include <algorithm>
-#include <string>
+#include<iostream>
+#include<fstream>
+#include<algorithm>
 using namespace std;
 
-void add_record(){
+const string FILENAME="student.txt";
+string roll,name,division,address;
+void insert(){
     fstream file;
-    file.open("Student_Records.txt", ios::app);
-    string name, address;
-    string roll;
-    char division;
-    cout << "Enter name: (Use underscore instead of space) ";
-    cin >> name;
-    for(int i = 0; i < name.length(); i++){
-        if(name[i] == '_'){
-            name[i] = ' ';
+    file.open(FILENAME,ios::app);
+    if(!file.is_open()){
+        cout<<"error in the file opening";
+        return;
+    }
+    cout<<"\nEnter the roll numer:(4 digit)";
+    cin>>roll;
+    cout<<"\nEnter the name:(use underscore instead of space)";
+    cin>>name;
+    for(int i=0;i<name.length();i++){
+        if(name[i]=='_'){
+            name[i]=' ';
         }
     }
-    cout << "Enter address: (Use underscore instead of space) ";
-    cin >> address;
-    for(int i = 0; i < address.length(); i++){
-        if(address[i] == '_'){
-            address[i] = ' ';
+    cout<<"\nEnter the Address:(use underscore instead of space)";
+    cin>>address;
+    for(int i=0;i<address.length();i++){
+        if(address[i]=='_'){
+            address[i]=' ';
         }
     }
-   
-    cout << "Enter roll no:(4 digit) ";
-    cin >> roll;
-    cout << "Enter division: "; 
-    cin >> division;
-    file << roll << " " << name << " " << division <<" "<<address << endl;
+    cout<<"\nEnter the division: ";
+    cin>>division;
+
+    string record=roll+" "+name+" "+address+" "+division;
+    file<<record<<"\n";
     file.close();
+
 }
 
-string search(){
+
+void search(){
     fstream file;
-    file.open("Student_Records.txt");
-    string roll;
-    cout<<"Enter roll number of student to be found: ";
-    cin>>roll;
+    string key;
+    cout<<"Enter the roll number to search: ";
+    cin>>key;
+    file.open(FILENAME);
+    bool found=false;
     string line;
     while(getline(file,line)){
-        string temp = line.substr(0,4);
-        if(temp == roll){
-            return line;
-            break;
+        if(key==line.substr(0,4)){
+            cout<<line;
+            found=true;
         }
     }
-    return "Record not found";
+    if(!found){
+        cout<<"Data not found";
+    }
+}
+
+
+void deleteRecord(){
+    fstream file,temp;
+    file.open(FILENAME);
+    temp.open("temp.txt",ios::app);
+    string key;
+    bool found=false;
+    cout<<"enter the roll no to be search: ";
+    cin>>key;
+    string line;
+
+    while(getline(file,line)){
+
+        if(key==line.substr(0,4)){
+            found=true;
+        }else{
+            temp<<line<<"\n";
+        }
+
+    }
+    file.close();
+    remove("student.txt");
+    temp.close();
+    rename("temp.txt","student.txt");
+    if(found){
+        cout<<"Data deleted successfully";
+    }else{
+        cout<<"data not found";
+    }
 
 
 }
+
+
+
 void display(){
     fstream file;
-    file.open("Student_Records.txt");
+    file.open(FILENAME);
     string line;
-    while(getline(file, line)){
-        cout << line << endl;
-    }
-    file.close();
-}
-
-void deleteLine(){
-    bool found = false;
-    fstream file,tempf,f2;
-    file.open("Student_Records.txt");
-    string roll;
-    cout<<"Enter roll number of student to be deleted: ";
-    cin>>roll;
-    string line;
-    tempf.open("temp.txt",std::ios::out);
     while(getline(file,line)){
-        string temp = line.substr(0,4);
-        if(temp == roll){
-            found = true;
-            continue;
-           
-        }else{
-            tempf << line << endl;
-        }
+        cout<<line<<"\n";
     }
     file.close();
-    remove("Student_Records.txt");
-    tempf.close();
-    rename("temp.txt","Student_Records.txt");
-    if(found){
-        cout<<"Record deleted successfully\n";
-    }else{  
-        cout<<"Record not found\n";
-    }
-
-    
 }
 
-int main(){
-    int choice;
-    do{
-        cout << "1. Add record\n2. Search record\n3. Display all records\n4. Delete\n5.Exit\nEnter your choice: ";
-        cin >> choice;
-        switch(choice){
+int main()
+{
+
+    int ch;
+    bool loop=true;
+    while(loop){
+        cout<<"\n1.add record\n2.search\n3.display\n4.delete\n5.exit\nEnter you choice:";
+        cin>>ch;
+
+        switch(ch){
             case 1:
-                add_record();
+                insert();
                 break;
+
             case 2:
-                cout << search() << endl;
+                search();
                 break;
+
             case 3:
                 display();
                 break;
+
             case 4:
-                deleteLine();
+                deleteRecord();
                 break;
+
             case 5:
-                cout << "Exiting\n";
+                loop=false;
+                cout<<"\nExited Successfully....!";
                 break;
             
             default:
-                cout << "Invalid choice\n";
-        }   
-    }while(choice != 5);
+                cout<<"\nInvalid choice";
+
+        }
+    }
     return 0;
 
 }

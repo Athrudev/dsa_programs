@@ -58,6 +58,7 @@
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "C_Cpp.errorSquiggles": "enabled",
   "files.associations": {
-    "iostream": "cpp"
+    "iostream": "cpp",
+    "fstream": "cpp"
   }
 }
