@@ -1,128 +1,116 @@
-#include <iostream>
+#include<iostream>
 using namespace std;
 
-// Node structure for the circular queue
-struct Node {
-    int data;
-    Node* next;
+struct Node{
+	int data;
+	Node* next;
 };
 
-class CircularQueue {
-private:
-    Node* front;
-    Node* rear;
+class CircularQueue{
+	Node* front;
+	Node* rear;
 
 public:
-    CircularQueue(){
-		 front=nullptr;
-		 rear=nullptr;
+	CircularQueue(){
+		front=nullptr;
+		rear=nullptr;
 	}
 
-    // Enqueue operation
-    void enqueue(int value) {
-        Node* newNode = new Node{value, nullptr};
-        if (front == nullptr) {
-            // Queue is empty
-            front = newNode;
-            rear = newNode;
-            rear->next = front; // Point to itself
-        } else {
-            rear->next = newNode; // Link new node at the end
-            rear = newNode;       // Update rear
-            rear->next = front;  // Make it circular
-        }
-    }
 
-    // Dequeue operation
-    int dequeue() {
-        if (front == nullptr) {
-            throw runtime_error("Queue underflow: The queue is empty.");
-        }
+	void enque(){
+		int val;
 
-        int value;
-        if (front == rear) {
-            // Single element in the queue
-            value = front->data;
-            delete front;
-            front = nullptr;
-            rear = nullptr;
-        } else {
-            Node* temp = front;
-            value = temp->data;
-            front = front->next; // Move front to next node
-            rear->next = front;  // Maintain circular link
-            delete temp;
-        }
+		cout<<"Enter the value:";
+		cin>>val;
 
-        return value;
-    }
+		Node* newNode=new Node{val,nullptr};
 
-    // Display the queue
-    void display() {
-        if (front == nullptr) {
-            cout << "Queue is empty." << endl;
-            return;
-        }
+		if(rear==nullptr){
+			front=newNode;
+			rear=newNode;
+			rear->next=front;
+		}else{
+			rear->next=newNode;
+			rear=newNode;
+			rear->next=front;
+		}
+	}
 
-        Node* temp = front;
-        cout << "Queue elements: ";
-        do {
-            cout << temp->data << " ";
-            temp = temp->next;
-        } while (temp != front);
-        cout << endl;
-    }
 
-    // Check if the queue is empty
-    /*bool isEmpty() {
-        return front == nullptr;
-    }
+	void deque(){
 
-    // Destructor to free allocated memory
-    ~CircularQueue() {
-        while (!isEmpty()) {
-            dequeue();
-        }*/
-    };
+		int val;
 
-int main() {
-    CircularQueue queue;
+		if(front==rear){
+			val=front->data;
+			delete front;
+			front=rear=nullptr;
+		}else{
+			Node* temp=front;
+			val=temp->data;
+			front=front->next;
+			rear->next=front;
+			delete temp;
+		}
 
-    cout << "Circular Queue Implementation using Linked List" << endl;
-    int choice, value;
+		cout<<"\nDeleted element:"<<val;
 
-    do {
-        cout << "\nMenu:\n";
-        cout << "1. Enqueue\n";
-        cout << "2. Dequeue\n";
-        cout << "3. Display\n";
-        cout << "4. Exit\n";
-        cout << "Enter your choice: ";
-        cin >> choice;
+	}
 
-        switch (choice) {
-        case 1:
-            cout << "Enter value to enqueue: ";
-            cin >> value;
-            queue.enqueue(value);
-            break;
-        case 2:
-            try {
-                cout << "Dequeued value: " << queue.dequeue() << endl;
-            } catch (const exception& e) {
-                cout << e.what() << endl;
-            }
-            break;
-        case 3:
-            queue.display();
-            break;
-        case 4:
-            cout << "Exiting..." << endl;
-            break;
-        default:
-            cout << "Invalid choice. Try again." << endl;
-        }
-    } while (choice != 4);
 
-    return 0;
+	void display(){
+		if(front==nullptr){
+			cout<<"Queue is Empty";
+			return;
+		}
+
+		Node* temp=front;
+		do{
+			cout<<temp->data<<",";
+			temp=temp->next;
+		}while(temp!=front);
+	}
+
+};
+
+int main(){
+
+	int ch;
+	bool loop=true;
+
+	CircularQueue c;
+	while(loop){
+	cout<<"\n\n1.Enque\n2.Deque\n3.Display\n4.Delete";
+	cout<<"\nEnter Your choice:";
+	cin>>ch;
+	
+
+		switch(ch){
+			case 1:
+			c.enque();
+			break;
+
+			case 2:
+			c.deque();
+			break;
+
+			case 3:
+			c.display();
+			break;
+
+			case 4:
+			loop=false;
+			cout<<"Exited Successfully";
+			break;
+
+			default:
+			cout<<"Invalid choice";
+
+		}
+
+	}
+	
+
+
+	return 0;
 }
