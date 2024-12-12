@@ -1,0 +1,57 @@
+19:30:28 **** Rebuild of configuration Debug for project Assignments ****
+Info: Internal Builder is used for build
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -o demo.o "..\\demo.cpp" 
+g++ -o Assignments.exe demo.o 
+Info: Nothing to build for Assignments
+19:39:13 **** Incremental Build of configuration Debug for project Assignments ****
+Info: Internal Builder is used for build
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -o Assignment2.o "..\\Assignment2.cpp" 
+g++ -o Assignments.exe Assignment2.o demo.o 
+demo.o: In function `main':
+D:\PVG\SY\dsa\programs\Assignments\Debug/../demo.cpp:4: multiple definition of `main'
+Assignment2.o:D:\PVG\SY\dsa\programs\Assignments\Debug/../Assignment2.cpp:4: first defined here
+collect2.exe: error: ld returned 1 exit status
+19:39:52 **** Incremental Build of configuration Debug for project Assignments ****
+Info: Internal Builder is used for build
+g++ -o Assignments.exe Assignment2.o demo.o 
+demo.o: In function `main':
+D:\PVG\SY\dsa\programs\Assignments\Debug/../demo.cpp:4: multiple definition of `main'
+Assignment2.o:D:\PVG\SY\dsa\programs\Assignments\Debug/../Assignment2.cpp:4: first defined here
+collect2.exe: error: ld returned 1 exit status
+19:42:16 **** Incremental Build of configuration Debug for project Assignments ****
+Info: Internal Builder is used for build
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -o demo.o "..\\demo.cpp" 
+g++ -o Assignments.exe demo.o 
+Info: Nothing to build for Assignments
+19:42:54 **** Incremental Build of configuration Debug for project Assignments ****
+Info: Internal Builder is used for build
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -o demo.o "..\\demo.cpp" 
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -o Assignment2.o "..\\Assignment2.cpp" 
+g++ -o Assignments.exe Assignment2.o demo.o 
+demo.o: In function `main':
+D:\PVG\SY\dsa\programs\Assignments\Debug/../demo.cpp:4: multiple definition of `main'
+Assignment2.o:D:\PVG\SY\dsa\programs\Assignments\Debug/../Assignment2.cpp:4: first defined here
+collect2.exe: error: ld returned 1 exit status
+19:47:24 **** Incremental Build of configuration Debug for project Assignments ****
+Info: Internal Builder is used for build
+g++ -o Assignments.exe demo.o 
+19:50:51 **** Rebuild of configuration Debug for project Assignment2 ****
+Info: Internal Builder is used for build
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -o Assignment2.o "..\\Assignment2.cpp" 
+g++ -o Assignment2.exe Assignment2.o 
+Info: Nothing to build for Assignments
+Info: Nothing to build for Assignment2
+19:52:43 **** Incremental Build of configuration Debug for project Assignment2 ****
+Info: Internal Builder is used for build
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -o Assignment2.o "..\\Assignment2.cpp" 
+g++ -o Assignment2.exe Assignment2.o 
+19:53:11 **** Incremental Build of configuration Debug for project Assignment2 ****
+Info: Internal Builder is used for build
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -o Assignment2.o "..\\Assignment2.cpp" 
+..\Assignment2.cpp: In function 'void infixToPostfix(std::__cxx11::string)':
+..\Assignment2.cpp:22:23: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     for (int i = 0; i < s.length(); i++) {
+                     ~~^~~~~~~~~~~~
+g++ -o Assignment2.exe Assignment2.o 
+Info: Nothing to build for Assignments
+Info: Nothing to build for Assignment2
