@@ -1,196 +1,165 @@
-#include <iostream>
+#include<iostream>
 using namespace std;
-struct studentInfo
-{
-    string name;
-    int roll;
-    float sgpa;
+
+struct stud{
+string name;
+float sgpa;
+int roll;
+
 };
 
-// Get student information
-void getStudentInfo(struct studentInfo s[], int n)
-{
-    for (int i = 0; i < n; i++)
-    {
-        cout << "Student " << (i + 1) << endl;
-        cout << "Enter Name: ";
-        cin >> s[i].name;
-        cout << "Enter Roll No: ";
-        cin >> s[i].roll;
-        cout << "Enter SGPA: ";
-        cin >> s[i].sgpa;
-        cout << endl;
+void display(struct stud s[], int n){
+
+    for(int i=0;i<n;i++){
+        cout<<"\nname: "<<s[i].name;
+        cout<<"\nsgpa: "<<s[i].sgpa;
+        cout<<"\nroll: "<<s[i].roll;
     }
+
+}
+void getInfo(struct stud s[],int n){
+
+    for(int i=0;i<n;i++){
+        cout<<"Enter the information for student "<<(i+1);
+        cout<<"\nName:";
+        cin>>s[i].name;
+        cout<<"\nRoll no:";
+        cin>>s[i].roll;
+        cout<<"\nSGPA:";
+        cin>>s[i].sgpa;
+    }
+
 }
 
-// Display all students
-void displayInfo(struct studentInfo s[], int n)
-{
-    for (int i = 0; i < n; i++)
-    {
-        cout << "Name: " << s[i].name << endl;
-        cout << "Roll No: " << s[i].roll << endl;
-        cout << "SGPA: " << s[i].sgpa << endl;
-        cout << endl;
-    }
-}
+void rollBubble(struct stud s[],int n){
 
-// Bubble Sort for Roll Numbers
-void bubbleSortForRollNum(struct studentInfo s[], int n)
-{
-    for (int i = 0; i < (n - 1); i++)
-    {
-        for (int j = 0; j < (n - i - 1); j++)
-        {
-            if (s[j].roll > s[j + 1].roll)
-            {
-                swap(s[j], s[j + 1]);
+    for(int i=0;i<(n-1);i++){
+        for(int j=0;j<n-i-1;j++){
+            if(s[j].roll>s[j+1].roll){
+                swap(s[j],s[j+1]);
             }
         }
     }
+
 }
 
-// Insertion Sort for Names
-void insertionSortForNames(struct studentInfo s[], int n)
-{
-    for (int i = 1; i < n; i++)
-    {
-        studentInfo key = s[i];
-        int j = i - 1;
-        while (j >= 0 && s[j].name > key.name)
-        {
-            s[j + 1] = s[j];
+
+void nameInsertion(struct stud s[],int n){
+
+    for(int i=0;i<n;i++){
+        struct stud key=s[i];
+        int j=i-1;
+
+        while(j>=0 && s[j].name>key.name){
+            s[j+1]=s[j];
             j--;
         }
-        s[j + 1] = key;
+        s[j+1]=key;
     }
+
 }
 
-// Quick Sort for SGPA
-int partition(struct studentInfo s[], int low, int high)
-{
-    float pivot = s[high].sgpa;
-    int i = low - 1;
 
-    for (int j = low; j < high; j++)
-    {
-        if (s[j].sgpa > pivot)
-        {
+int partition(struct stud s[],int low,int high){
+
+    float pivot=s[high].sgpa;
+    int i=low-1;
+
+    for(int j=low;j<high;j++){
+        if(s[j].sgpa>pivot){
             i++;
-            swap(s[i], s[j]);
+            swap(s[i],s[j]);
+        }
+        
+    }
+    swap(s[i+1],s[high]);
+    return i+1;
+
+}
+
+void quickSort(struct stud s[],int low,int high){
+
+    if(low<high){
+        int pi=partition(s,low,high);
+        quickSort(s,low,pi-1);
+        quickSort(s,pi+1,high);
+    }
+
+}
+
+
+void displayTop(struct stud s[],int n){
+
+    int limit=min(n,10);
+
+    for(int i=0;i<limit;i++){
+        cout<<"\n\nRank: "<<(i+1);
+        cout<<"\nName:"<<s[i].name;
+        cout<<"\nRoll no: "<<s[i].roll;
+        cout<<"\nSGPA: "<<s[i].sgpa;
+    }
+
+}
+
+
+void searchSGPA(struct stud s[],int n,float key){
+    bool found=false;
+    for(int i=0;i<n;i++){
+        if(s[i].sgpa==key){
+            found=true;
+            cout<<"\nName:"<<s[i].name;
+            cout<<"\nRoll no: "<<s[i].roll;
+            cout<<"\nSGPA: "<<s[i].sgpa;
+
         }
     }
-    swap(s[i + 1], s[high]);
-    return i + 1;
-}
 
-void quickSortForSGPA(struct studentInfo s[], int low, int high)
-{
-    if (low < high)
-    {
-        int pi = partition(s, low, high);
-        quickSortForSGPA(s, low, pi - 1);
-        quickSortForSGPA(s, pi + 1, high);
+    if(!found){
+        cout<<"\ndata not found in the database";
     }
+
 }
 
-void displayTop10(struct studentInfo s[], int n)
-{
-    int limit = min(n, 10);
-    cout << "Top " << limit << " Students According to SGPA:\n\n";
-    for (int i = 0; i < limit; i++)
-    {
-        cout << "Rank: " << (i + 1) << endl;
-        cout << "Name: " << s[i].name << endl;
-        cout << "Roll No: " << s[i].roll << endl;
-        cout << "SGPA: " << s[i].sgpa << endl;
-        cout << endl;
-    }
-}
 
-// Search by SGPA
-void searchStudentwrtSGPA(struct studentInfo s[], int n, float key)
-{
-    bool found = false;
-    for (int i = 0; i < n; i++)
-    {
-        if (s[i].sgpa == key)
-        {
-            cout << "Name: " << s[i].name << endl;
-            cout << "Roll No: " << s[i].roll << endl;
-            cout << "SGPA: " << s[i].sgpa << endl;
-            cout << endl;
-            found = true;
-        }
-    }
-    if (!found)
-        cout << "No student found with SGPA: " << key << endl;
-}
+void nameSeach(struct stud s[],int n,string val){
+    int start=0;
+    int end=n-1;
+    int mid;
+    bool found=false;
 
-// Binary Search for Name
-void searchStudentwrtName(struct studentInfo s[], string key, int n)
-{
-    int start = 0;
-    int end = n - 1;
-    bool found = false;
-
-    while (start <= end)
-    {
-        int mid = (start + end) / 2;
-        if (s[mid].name == key)
-        {
-            found = true;
-            cout << "Name: " << s[mid].name << endl;
-            cout << "Roll No: " << s[mid].roll << endl;
-            cout << "SGPA: " << s[mid].sgpa << endl;
-            cout << endl;
-            
-            // Check nearby for duplicates
-            int left = mid - 1;
-            while (left >= 0 && s[left].name == key)
-            {
-                cout << "Name: " << s[left].name << endl;
-                cout << "Roll No: " << s[left].roll << endl;
-                cout << "SGPA: " << s[left].sgpa << endl;
-                cout << endl;
-                left--;
-            }
-
-            int right = mid + 1;
-            while (right < n && s[right].name == key)
-            {
-                cout << "Name: " << s[right].name << endl;
-                cout << "Roll No: " << s[right].roll << endl;
-                cout << "SGPA: " << s[right].sgpa << endl;
-                cout << endl;
-                right++;
-            }
+    while(start<=end){
+        mid=(start+end)/2;
+        if(s[mid].name==val){
+            found=true;
+            cout<<"\nName:"<<s[mid].name;
+            cout<<"\nRoll no: "<<s[mid].roll;
+            cout<<"\nSGPA: "<<s[mid].sgpa;
             break;
-        }
-        else if (s[mid].name < key)
-        {
-            start = mid + 1;
-        }
-        else
-        {
-            end = mid - 1;
+        }else if(s[mid].name<val){
+            start=mid+1;
+        }else{
+            end=mid-1;
         }
     }
-    if (!found)
-        cout << "No student found with name: " << key << endl;
+
+
+    if(!found){
+        cout<<"data not found in the database";
+    }
 }
 
-int main()
-{
-    cout << "Student Information System.\n\n";
-    int n;
-    cout << "Enter Number of Students: ";
-    cin >> n;
+int main(){
 
-    struct studentInfo s[n];
-    getStudentInfo(s, n);
 
-    while (true)
+    int ch,n;
+    cout<<"enter number of student's:"<<endl;
+    cin>>n;
+    bool loop=true;
+    struct stud s[n];
+    string val;
+    getInfo(s,n);
+
+    while (loop)
     {
         cout << "Enter:\n";
         cout << "1. Arrange List by Roll Numbers (Bubble Sort)\n";
@@ -200,50 +169,50 @@ int main()
         cout << "5. Search by Name (Binary Search)\n";
         cout << "6. Exit\n\n";
 
-        int choice;
-        string nameKey;
-        cout << "Enter Your Choice: ";
-        cin >> choice;
-        cout << endl;
+        cout<<"Enter you choice:";
+        cin>>ch;
 
-        switch (choice)
-        {
-        case 1:
-            bubbleSortForRollNum(s, n);
-            displayInfo(s, n);
-            break;
 
-        case 2:
-            insertionSortForNames(s, n);
-            displayInfo(s, n);
-            break;
+        switch(ch){
+            case 1:
+                rollBubble(s,n);
+                display(s,n);
+                break;
 
-        case 3:
-            quickSortForSGPA(s, 0, n - 1);
-            displayTop10(s, n);
-            break;
+            case 2:
+                nameInsertion(s,n);
+                display(s,n);
+                break;
 
-        case 4:
-            float sgpaKey;
-            cout << "Enter SGPA to Search: ";
-            cin >> sgpaKey;
-            searchStudentwrtSGPA(s, n, sgpaKey);
-            break;
+            case 3:
+                quickSort(s,0,n-1);
+                displayTop(s,n);
+                break;
 
-        case 5:
-            insertionSortForNames(s, n); // Ensure names are sorted for binary search
-            
-            cout << "Enter Name to Search: ";
-            cin >> nameKey;
-            searchStudentwrtName(s, nameKey, n);
-            break;
+            case 4:
+                float key;
+                cout<<"enter sgpa to search:";
+                cin>>key;
+                searchSGPA(s,n,key);
+                break;
 
-        case 6:
-            return 0;
+            case 5:
+                cout<<"Enter the name to be search: ";
+                cin>>val;
+                nameInsertion(s,n);
+                nameSeach(s,n,val);
+                break;
+                
+            case 6:
+                loop=false;
+                break;
 
-        default:
-            cout << "Invalid Choice. Please try again.\n";
+            default:
+                cout<<"\nInvalid choice...!";
+
         }
     }
+    
+
     return 0;
 }
