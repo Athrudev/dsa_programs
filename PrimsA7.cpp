@@ -9,13 +9,13 @@ void printMST(int parent[],int graph[][V]){
 		cout<<parent[v]<<"\t\t"<<v<<"\t\t"<<graph[parent[v]][v]<<endl;
 	}
 }
-int minKey(int key[],bool visited[]){
+int mindist(int dist[],bool visited[]){
 	int min=INT_MAX,min_index;
 	
 	for(int v=0;v<V;v++){
 		
-		if(visited[v]==false && key[v]<min){
-			min=key[v];
+		if(visited[v]==false && dist[v]<min){
+			min=dist[v];
 			min_index=v;
 		}
 	}
@@ -24,33 +24,33 @@ int minKey(int key[],bool visited[]){
 void primsAlgorithm(int graph[][V]){
 	//making data structures
 	bool visited[V];
-	int key[V];
+	int dist[V];
 	int parent[V];
 	
-	int current;
+	int u;
 	
 	//initializing
 	for(int i=0;i<V;i++){
-		key[i]=INT_MAX;
+		dist[i]=INT_MAX;
 		visited[i]=false;
 	}
-	key[0]=0;
+	dist[0]=0;
 	parent[0]=-1;
 	
 	for(int count=0;count<V-1;count++){
 		
 		//finding current node
-		current=minKey(key,visited);
+		u=mindist(dist,visited);
 		
-		//mark current as visited
-		visited[current]=true;
+		//mark u as visited
+		visited[u]=true;
 		
 		for(int v=0;v<V;v++){
 			
-			if(visited[v]!=true && graph[current][v]  && graph[current][v]<key[v]){
+			if(visited[v]!=true && graph[u][v]  && graph[u][v]<dist[v]){
 				
-				parent[v]=current;
-				key[v]=graph[current][v];
+				parent[v]=u;
+				dist[v]=graph[u][v];
 			}
 		}
 		
